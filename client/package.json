@@ -28,7 +28,6 @@
     "@polymer/paper-icon-button": "^3.0.0-pre.21",
     "@polymer/polymer": "^3.0.0",
     "@vaadin/vaadin-core": "^10.0.0-pre.3",
-    "@vaadin/vaadin-usage-statistics": "^2.0.0-alpha4",
     "@webcomponents/webcomponentsjs": "^2.0.2",
     "echarts": "^4.1.0",
     "jsonpath": "^1.0.0",
