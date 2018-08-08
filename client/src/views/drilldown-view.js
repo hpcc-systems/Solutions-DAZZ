@@ -1,18 +1,20 @@
 import { html, LitElement } from '@polymer/lit-element';
 import '../components/hpcc-chart.js';
-import { SharedStyles } from '../styles/shared-styles.js';
-import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js';
-import '@polymer/paper-dialog/paper-dialog.js';
-import '@polymer/paper-button/paper-button.js';
-import '../js/comm.js';
-import { repeat } from 'lit-html/lib/repeat.js';
+import { sharedStyles } from '../styles/shared-styles.js';
+import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout';
+import '@polymer/paper-dialog';
+import '@polymer/paper-button';
+import {Comm} from '../js/Comm.js';
+import { repeat } from 'lit-html/lib/repeat';
 
 class DrilldownView extends LitElement {
    
 
   _render({_charts_data, filter_1, filter_2}) {
     return html`
-      ${SharedStyles}
+    ${sharedStyles}          
+          
+          
     <div style="background-color:gray;width:100%">
       <vaadin-vertical-layout>
       <vaadin-horizonal-layout>

@@ -1,9 +1,9 @@
-import { LitElement, html} from '@polymer/lit-element/lit-element.js';
-import {render} from 'lit-html/lit-html.js'
-import { sharedStyles } from '../styles/shared-styles.js';
-import '../js/comm.js';
+import { LitElement, html} from '@polymer/lit-element';
+import {render} from 'lit-html'
+import {sharedStyles} from '../styles/shared-styles.js';
+import {Comm} from '../js/Comm.js';
 import '../views/drilldown-view.js';
-import { repeat } from 'lit-html/lib/repeat.js';
+import { repeat } from 'lit-html/lib/repeat';
 
 
 class HPCCChart extends LitElement {
@@ -19,6 +19,7 @@ class HPCCChart extends LitElement {
     console.log('[hpcc-chart] Render');
 
     return html`
+      
       ${sharedStyles}
       <style>
         :host {

@@ -8,12 +8,12 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import '@polymer/polymer/polymer-element.js';
-import '@vaadin/vaadin-lumo-styles/style.js';
-import '@vaadin/vaadin-lumo-styles/color.js';
-import '@vaadin/vaadin-lumo-styles/sizing.js';
-import '@vaadin/vaadin-lumo-styles/typography.js'
-import '@vaadin/vaadin-lumo-styles/icons.js'
+import '@polymer/polymer/polymer-element';
+import '@vaadin/vaadin-lumo-styles/style';
+import '@vaadin/vaadin-lumo-styles/color';
+import '@vaadin/vaadin-lumo-styles/sizing';
+import '@vaadin/vaadin-lumo-styles/typography'
+import '@vaadin/vaadin-lumo-styles/icons'
 
 import { html } from '@polymer/lit-element';
 

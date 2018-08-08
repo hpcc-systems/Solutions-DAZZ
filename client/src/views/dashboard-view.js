@@ -1,15 +1,15 @@
 import { html, LitElement } from '@polymer/lit-element';
 import '../components/hpcc-chart.js';
-import { SharedStyles } from '../styles/shared-styles.js';
-import '../js/comm.js';
-import { repeat } from 'lit-html/lib/repeat.js';
+import { sharedStyles } from '../styles/shared-styles.js';
+import {Comm} from '../js/Comm.js';
+import { repeat } from 'lit-html/lib/repeat';
 
 class DashboardView extends LitElement {
    
 
   _render({_charts_data, _dashboard_view}) {
     return html`
-      ${SharedStyles}
+             ${sharedStyles} 
       
              ${repeat(_charts_data, (item) => html`
                  
