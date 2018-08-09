@@ -35,7 +35,7 @@ Run the client server from the client directory
 polyserve --proxy-target http://localhost:3000/api --proxy-path api
 ```
 
-Access the application from your browser (Firefox tested only)
+Access the application from your browser (Works on Google Chrome)
 
 http://localhost:8081
 
