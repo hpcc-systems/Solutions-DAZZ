@@ -4,6 +4,7 @@ import {sharedStyles} from '../styles/shared-styles.js';
 import {Comm} from '../js/Comm.js';
 import '../views/drilldown-view.js';
 import { repeat } from 'lit-html/lib/repeat';
+import {Properties} from '../js/Properties.js';
 
 
 class HPCCChart extends LitElement {
@@ -72,7 +73,7 @@ class HPCCChart extends LitElement {
 
     let queryName = this.query_name;
 
-    let serviceURL = "http://play.hpccsystems.com:8002/WsEcl/soap/query/roxie/" + queryName;
+    let serviceURL = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/" + queryName;
 
     let serviceContent = {
       [queryName]: {

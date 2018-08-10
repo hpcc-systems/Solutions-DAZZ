@@ -14,6 +14,7 @@ import '@polymer/paper-icon-button';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@vaadin/vaadin-dropdown-menu';
 import {Comm} from  '../js/Comm.js';
+import {Properties} from '../js/Properties.js';
 
 
 
@@ -167,17 +168,19 @@ class MyApp extends PolymerElement {
     };
   }
 
+  //Can you get there with http://76.205.200.145:8010/#/stub/Main
+
   constructor() {
     super();
 
-    this.dashService = "http://play.hpccsystems.com:8002/WsEcl/soap/query/roxie/das_dashboard_query.1";
+    this.dashService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_dashboard_query.1";
     this.dashServiceContent = {
       "das_dashboard_query.1": {
 
       }
     };
 
-    this.appService = "http://play.hpccsystems.com:8002/WsEcl/soap/query/roxie/das_application_query.1";
+    this.appService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_application_query.1";
     this.appServiceContent = {
       "das_application_query.1": {
 

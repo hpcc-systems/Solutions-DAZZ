@@ -3,6 +3,7 @@ import '../components/hpcc-chart.js';
 import { sharedStyles } from '../styles/shared-styles.js';
 import {Comm} from '../js/Comm.js';
 import { repeat } from 'lit-html/lib/repeat';
+import {Properties} from '../js/Properties.js';
 
 class DashboardView extends LitElement {
    
@@ -56,7 +57,7 @@ class DashboardView extends LitElement {
   }
 
   _init() {
-    let serviceURL = "http://play.hpccsystems.com:8002/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
+    let serviceURL = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
     let serviceContent = {
       "das_dashboard_charts_query.1": {
         "dashboard_id": this.dashboard_id
