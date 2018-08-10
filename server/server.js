@@ -1,14 +1,14 @@
-const express = require('express');
+const express = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/express');
 const app = express();
 app.use(express.json());
 
-var request = require('request');
-var jp = require('jsonpath');
+var request = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/request');
+var jp = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/jsonpath');
 
 
 app.post('/api/*', (req, res) => { 
 
-	var request = require("request");
+	var request = require("../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/request");
 	
 	console.log('Request body ' + JSON.stringify(req.body));
 	console.log('Request URL - ' + req.body.url);
@@ -18,7 +18,12 @@ app.post('/api/*', (req, res) => {
 	request.post({
 		"headers": { "content-type": "application/json" },
 		"url": req.body.url,
-		"body": JSON.stringify(req.body.content)
+		"body": JSON.stringify(req.body.content),
+		"auth": {
+			"user": "",
+			"pass": "",
+			"sendImmediately": true
+		  }
 	}, (error, response, body) => {
 		if(error) {
 			return console.dir(error);
