@@ -136,7 +136,7 @@ class MyApp extends PolymerElement {
 
           <iron-pages id="pages" selected="[[page]]" attr-for-selected="name" selected-attribute="active" role="main">
              <template is="dom-repeat" items="{{dashboard_data}}">
-                <dashboard-view name="{{item.id}}" dashboard_id="{{item.id}}"></dashboard-view> 
+                <dashboard-view name="{{item.id}}" dashboard_id="{{item.id}}" application_id="{{item.application_id}}"></dashboard-view> 
              </template>
           </iron-pages>
         </app-header-layout>

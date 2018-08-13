@@ -1,6 +1,9 @@
+IMPORT ecl.das.das_register_util;
+
 _dataset_name := '' :STORED('dataset_name');
 _filter_1 := '':STORED('filter_1');
 _filter_2 := '':STORED('filter_2');
+
 
 
 columnRec := RECORD
@@ -11,6 +14,12 @@ END;
 rowRec := RECORD
     STRING50 series_label;
     DATASET(columnRec) column_data;
+END;
+
+chartRec := RECORD
+    STRING title;
+    STRING description;    
+    DATASET(rowRec) row_data;
 END;
 
 columnYearAgeRec := RECORD
@@ -28,7 +37,21 @@ END;
 
 UNSIGNED4 year_filter := (UNSIGNED4)_filter_1;
 
-ds := CASE(_dataset_name, 'previousYear' => byYearAgeCols(year=year_filter OR year=year_filter-1 ), byYearAgeCols (year = year_filter));
+ds := CASE
+   (
+    _dataset_name, 
+    'previousYear' => byYearAgeCols(year=year_filter OR year=year_filter-1 ), 
+    byYearAgeCols (year = year_filter)
+   );
+
+title := CASE
+    (
+        _dataset_name,
+        'previousYear' => 'Cancer Cases drilldown by ' + (STRING)year_filter + ' and ' + (STRING)(year_filter-1) ,
+        'Cancer Cases drilldown by ' + (STRING)year_filter
+    ) ;
+
+description := 'Cancer cases by Age and how they are progressed in a specific year (or two successive years)';
 
 byYearAgeColsGroup := GROUP(SORT(ds, age, year), age);
 
@@ -39,5 +62,14 @@ END;
 
 byYearAgeRows := ROLLUP(byYearAgeColsGroup, GROUP, doAgeRollup(LEFT,ROWS(LEFT)));
 
-OUTPUT(byYearAgeRows, , NAMED('chart_data'));
+
+OUTPUT(DATASET([{title, description, byYearAgeRows}], chartRec),, NAMED('chart_data'));
+
+// das_register_util.das_register_chart('cancer_research',
+//                              'drilldown_all_cancers_for_age',
+//                              'by_current_year_previous_1',
+//                              'Cancer distribution by Age for current and prior year', 
+//                              'bar', 
+//                              'cancer_research_drilldown_by_age_query.1',
+//                              'previousYear'); 
 

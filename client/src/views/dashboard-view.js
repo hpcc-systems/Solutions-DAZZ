@@ -18,7 +18,8 @@ class DashboardView extends LitElement {
                   dataset_name="${item.dataset_name}" query_name="${item.query_name}" 
                   chart_title="${item.title}"
                   has_drilldown="${item.has_drilldown}"
-                  drilldown_dashboard_id="${item.drilldown_dashboard_id}"></hpcc-chart>
+                  drilldown_dashboard_id="${item.drilldown_dashboard_id}"
+                  drilldown_application_id="${item.drilldown_application_id}"></hpcc-chart>
 
              `)}
     `;
@@ -34,6 +35,7 @@ class DashboardView extends LitElement {
   static get properties() {
     return {
       dashboard_id: String,
+      application_id: String,
       active: Boolean,
       _charts_data: Object,
       _dashboard_view: Object
@@ -60,7 +62,8 @@ class DashboardView extends LitElement {
     let serviceURL = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
     let serviceContent = {
       "das_dashboard_charts_query.1": {
-        "dashboard_id": this.dashboard_id
+        "dashboard_id": this.dashboard_id,
+        "application_id": this.application_id
       }
     };
 

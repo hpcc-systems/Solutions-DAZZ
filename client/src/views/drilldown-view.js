@@ -27,7 +27,10 @@ class DrilldownView extends LitElement {
                 <hpcc-chart  chart_type="${item.chart_type}" 
                     dataset_name="${item.dataset_name}" query_name="${item.query_name}" 
                     chart_title="${item.title} by ${filter_1}"
-                    filter_1="${filter_1}"></hpcc-chart>
+                    filter_1="${filter_1}"
+                    has_drilldown="${item.has_drilldown}"
+                    drilldown_dashboard_id="${item.drilldown_dashboard_id}"
+                    drilldown_application_id="${item.drilldown_application_id}"></hpcc-chart>
             `)}
 
       </vaadin-vertical-layout>
@@ -45,6 +48,7 @@ class DrilldownView extends LitElement {
   static get properties() {
     return {
       dashboard_id: String,
+      application_id: String,
       filter_1: String,
       filter_2: String,
       _charts_data: Object
@@ -61,6 +65,7 @@ class DrilldownView extends LitElement {
     let serviceContent = {
       "das_dashboard_charts_query.1": {
         "dashboard_id": this.dashboard_id,
+        "application_id": this.application_id,
         "filter_1": this.filter_1
       }
     };

@@ -88,10 +88,11 @@ class HPCCChart extends LitElement {
   
   _chartClick(params) {
     console.log('[hpcc-chart]' + 'name:' + params.name + '  series name: ' + params.seriesName + ' component Type: ' + params.componentType);
-    console.log('[hpcc-chart]' + 'drilldown dashboard id:' + this.drilldown_dashboard_id  + '  filter 1: ' + params.name);
+    console.log('[hpcc-chart]' + 'drilldown dashboard id:' + this.drilldown_dashboard_id  + '   drilldown application id:' + this.drilldown_application_id  + '  filter 1: ' + params.name);
     
     let dialog = this.shadowRoot.querySelector('#drilldown');
     dialog.dashboard_id = this.drilldown_dashboard_id;
+    dialog.application_id = this.drilldown_application_id;
 
     dialog.filter_1 = params.name;
     dialog.filter_2 = params.seriesName;
@@ -102,6 +103,7 @@ class HPCCChart extends LitElement {
   _tableRowClick(param) {
     let dialog = this.shadowRoot.querySelector('#drilldown');
     dialog.dashboard_id = this.drilldown_dashboard_id;
+    dialog.application_id = this.drilldown_application_id;
 
     dialog.filter_1 = '';
     dialog.filter_2 = param;
@@ -112,6 +114,7 @@ class HPCCChart extends LitElement {
   _tableColumnClick(param) {
     let dialog = this.shadowRoot.querySelector('#drilldown');
     dialog.dashboard_id = this.drilldown_dashboard_id;
+    dialog.application_id = this.drilldown_application_id;
 
     dialog.filter_1 = param;
     dialog.filter_2 ='';
@@ -143,6 +146,14 @@ class HPCCChart extends LitElement {
   }
 
   receiveData(respType, resp) {
+    
+    let chartResult = jsonPath(resp, '$..chart_data');
+    
+    if (!chartResult) return;//No data is returned. Need to log this as this should never happen
+
+    let chartMeta = chartResult[0].Row[0];
+    if (chartMeta.title) this.chart_title = chartMeta.title;
+    let chartData = chartMeta.row_data.Row;
 
     if (respType == 'bar' || respType == 'line') {
  
@@ -176,9 +187,6 @@ class HPCCChart extends LitElement {
 
       };
 
-
-      let chartResult = jsonPath(resp, '$..chart_data');
-      let chartData = chartResult[0].Row;
 
       for (var i = 0; i < chartData.length; i++) {
 
@@ -228,9 +236,6 @@ class HPCCChart extends LitElement {
         data: []
       }
 
-      let chartResult = jsonPath(resp, '$..chart_data');
-      let chartData = chartResult[0].Row;
-
       for (var i = 0; i < chartData.length; i++) {
 
         var series_label = chartData[i].series_label;
@@ -247,8 +252,6 @@ class HPCCChart extends LitElement {
       chart.setOption(option, true);
 
     } else if (respType = 'table') {
-      let chartResult = jsonPath(resp, '$..chart_data');
-      let chartData = chartResult[0].Row;
 
       let columnHeaders = [];
       columnHeaders.push('');
