@@ -1,15 +1,14 @@
-const express = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/express');
+const express = require('express');
 const app = express();
 app.use(express.json());
 
-var request = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/request');
-var jp = require('../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/jsonpath');
+var request = require('request');
+//var jp = require('jsonpath');
 
 
 app.post('/api/*', (req, res) => { 
 
-	var request = require("../../../Users/chalaax/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/request");
-	
+
 	console.log('Request body ' + JSON.stringify(req.body));
 	console.log('Request URL - ' + req.body.url);
 	console.log('Request Content - ' + req.body.content);
