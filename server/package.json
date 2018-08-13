@@ -11,6 +11,6 @@
   "dependencies": {
     "express": "^4.16.3",
     "jsonpath": "^1.0.0",
-    "request": "^2.87.0"
+    "request": "^2.88.0"
   }
 }
