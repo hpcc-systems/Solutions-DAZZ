@@ -1,5 +1,3 @@
-IMPORT ecl.das.das_register_util;
-
 columnRec := RECORD
     STRING50 column_label;
     Real     value;
@@ -43,30 +41,3 @@ description := '';
 
 OUTPUT(DATASET([{title, description,ds}], chartRec), , NAMED('chart_data'));
 
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year',
-                             '', 
-                             'bar', 
-                             'cancer_research_query.1',
-                             'allByYear',
-                             false,
-                             true,
-                             'cancer_research',
-                             'drilldown_all_cancers_for_age');
-
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year_sex',
-                             '', 
-                             'line', 
-                             'cancer_research_query.1',
-                             'allByYearAndSex');
-
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year_age',
-                             '', 
-                             'line', 
-                             'cancer_research_query.1',
-                             'allByYearAndAge');
