@@ -29,7 +29,7 @@ EXPORT das_register_util := MODULE
 
          return JOIN(currentFile, newFile,
                      Left.application_id = right.application_id And Left.dashboard_id = right.dashboard_id  and Left.chart_id = right.chart_id,
-                     TRANSFORM(dashChartRec, self := IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)),
+                     TRANSFORM(dashChartRec, SELF := IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)),
 										 FULL OUTER
                 );
     END;
@@ -38,7 +38,7 @@ EXPORT das_register_util := MODULE
 
 	    tempSubkeyPath := myFileName + '_temp';		
 		
-		createSubFile := OUTPUT(newData, , tempSubkeyPath);
+		createSubFile := OUTPUT(newData, , tempSubkeyPath, OVERWRITE);
 
         subkeyPath := myFileName + '::' + chart_id + '::' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
 

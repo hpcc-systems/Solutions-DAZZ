@@ -1,3 +1,5 @@
+IMPORT ecl.das.das_register_util;
+
 columnRec := RECORD
     STRING50 column_label;
     Real     value;
@@ -22,3 +24,11 @@ ds := DATASET([{'Accord',[{'Q1',100000}, {'Q2',120000}, {'Q3',90000}, {'Q4',1500
                      {'Odyssey',[{'Q1',300000}, {'Q2',350000}, {'Q3',150000}, {'Q4',370000}]}], rowRec);
 
 OUTPUT(DATASET([{'Sales by quarter', 'Sales by quarter', ds}], chartRec),, NAMED('chart_data'));
+
+das_register_util.register_chart('sales_demo',
+                             'annual_revenue',
+                             'annual_revenue',
+                             '', 
+                             'bar', 
+                             'sales_query.1',
+                             '');
