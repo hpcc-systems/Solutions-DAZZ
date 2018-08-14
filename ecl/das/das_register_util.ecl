@@ -2,7 +2,9 @@ IMPORT STD;
 
 EXPORT das_register_util := MODULE
 
-    myFileName := '~hpcc_das::config::charts.flat';
+    myFileName := '~hpcc_das::config::super::charts.flat';
+		
+	myArchiveFile := '~hpcc_das::config::archive::charts.flat';
 
     dashChartRec := Record
         STRING application_id;
@@ -12,50 +14,73 @@ EXPORT das_register_util := MODULE
         STRING chart_type;
         STRING query_name;
         STRING dataset_name;
+        BOOLEAN is_drilldown := false;
         BOOLEAN has_drilldown := false;
         STRING drilldown_application_id := '';
         STRING drilldown_dashboard_id := '';
         BOOLEAN is_active := true;
     End;
 
-    currentFile := DATASET(myFileName, dashChartRec, THOR, OPT);
+    currentFile := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT,  OPT);
 
-    charts := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT , __Compressed__, OPT);
+    charts := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT ,  OPT);
 
     dashChartRec updateCurrentFileData(DATASET(dashChartRec) newFile) := FUNCTION
 
-                    return JOIN(currentFile, newFile,
-                        Left.application_id = right.application_id And Left.dashboard_id = right.dashboard_id  and Left.chart_id = right.chart_id,
-                        TRANSFORM(dashChartRec, self := IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT))
-                            );
+         return JOIN(currentFile, newFile,
+                     Left.application_id = right.application_id And Left.dashboard_id = right.dashboard_id  and Left.chart_id = right.chart_id,
+                     TRANSFORM(dashChartRec, self := IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)),
+										 FULL OUTER
+                );
     END;
 
-    rewriteMyFile(Dataset(dashChartRec) newData) := Function
+    rewriteMyFile(Dataset(dashChartRec) newData, STRING chart_id) := Function
 
-        return  SEQUENTIAL(
-                            Output(newData, ,myFileName[1..(LENGTH(myFileName) - 5)] + '_' + workunit, Compressed);
-                          );
+	    tempSubkeyPath := myFileName + '_temp';		
+		
+		createSubFile := OUTPUT(newData, , tempSubkeyPath);
+
+        subkeyPath := myFileName + '::' + chart_id + '::' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
+
+        addSuperFile :=  SEQUENTIAL
+               (
+   			        STD.File.StartSuperFileTransaction();
+					STD.File.PromoteSuperfileList( [myFilename, myArchiveFile], subkeyPath, true),
+   					STD.File.FinishSuperFileTransaction()
+   			    );
+   				
+        RETURN SEQUENTIAL
+                (
+   				     createSubFile,
+					 Std.File.RenameLogicalFile(tempSubkeyPath, subkeyPath);
+   					 addSuperFile
+   			     );
+
+
     end;
 
-    EXPORT das_register_chart(STRING app_id,
+    EXPORT register_chart(STRING app_id,
                         STRING dashboard_id,
                         STRING chart_id,
                         STRING title,
                         STRING chart_type,
                         STRING query_name,
                         STRING dataset_name,
+                        BOOLEAN is_drilldown = FALSE,
                         BOOLEAN has_drilldown=FALSE,
                         STRING drilldown_app_id='',
                         STRING drilldown_dashboard_id='') := FUNCTION
 
-        newRec := DATASET([{app_id, dashboard_id, chart_id, title, chart_type, query_name, dataset_name, has_drilldown, drilldown_app_id, drilldown_dashboard_id}], dashChartRec);
+        newRec := DATASET([{app_id, dashboard_id, chart_id, title, chart_type, 
+                     query_name, dataset_name, is_drilldown, has_drilldown, 
+                     drilldown_app_id, drilldown_dashboard_id}], dashChartRec);
 
         joinedData := updateCurrentFileData(newRec);
 
-        updateMyFile := rewriteMyFile(joinedData);
+        updateMyFile := rewriteMyFile(joinedData, chart_id);
 
-        Return WHEN(updateMyFile, Output(charts));
-
+        Return WHEN(updateMyFile, OUTPUT(charts));
+ 
     END;
 
 END;
