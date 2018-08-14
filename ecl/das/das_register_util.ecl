@@ -30,8 +30,9 @@ EXPORT das_register_util := MODULE
          return JOIN(currentFile, newFile,
                      Left.application_id = right.application_id And Left.dashboard_id = right.dashboard_id  and Left.chart_id = right.chart_id,
                      TRANSFORM(dashChartRec, 
-			                   SELF := IF(Left.application_id = RIGHT.application_id And Left.dashboard_id = RIGHT.dashboard_id and Left.chart_id = RIGHT.chart_id, RIGHT,
-					                   IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)
+			                   self := IF(Left.application_id = RIGHT.application_id And Left.dashboard_id = RIGHT.dashboard_id and Left.chart_id = RIGHT.chart_id, RIGHT,
+					                          IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)
+
 				                            );
 			               ), FULL OUTER
                      );
