@@ -32,12 +32,13 @@ EXPORT das_register_util := MODULE
                      TRANSFORM(dashChartRec, 
 			                   self := IF(Left.application_id = RIGHT.application_id And Left.dashboard_id = RIGHT.dashboard_id and Left.chart_id = RIGHT.chart_id, RIGHT,
 					                          IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)
+
 				                            );
 			               ), FULL OUTER
-                );
+                     );
     END;
     
-
+ 
     rewriteMyFile(Dataset(dashChartRec) newData, STRING chart_id) := Function
 
 	    tempSubkeyPath := myFileName + '_temp';		
