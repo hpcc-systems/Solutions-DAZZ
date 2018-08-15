@@ -1,5 +1,5 @@
-IMPORT ecl.das.das_register_util;
-
+IMPORT ecl.das.das_register_util;     
+ 
 das_register_util.register_chart('cancer_research',
                              'all_cancers',
                              'all_cancers_by_year',
