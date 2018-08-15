@@ -2,9 +2,9 @@ IMPORT STD;
 
 EXPORT das_register_util := MODULE
 
-    myFileName := '~hpcc_das::config::super::charts.flat';
+    myFileName := '~hpcc_das::config::super::charts';
 		
-	myArchiveFile := '~hpcc_das::config::archive::charts.flat';
+	myArchiveFile := '~hpcc_das::config::archive::charts';
 
     dashChartRec := Record
         STRING application_id;
@@ -44,7 +44,7 @@ EXPORT das_register_util := MODULE
 		
 		createSubFile := OUTPUT(newData, , tempSubkeyPath, OVERWRITE);
 
-        subkeyPath := myFileName + '::' + chart_id + '::' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
+        subkeyPath := myFileName + '::' + chart_id + '_' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
 
         addSuperFile :=  SEQUENTIAL
                (
