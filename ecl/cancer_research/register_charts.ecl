@@ -11,6 +11,15 @@ das_register_util.register_chart('Cancer Research',
                              'All Cancer Sites Combined');
 
 das_register_util.register_chart('Cancer Research',
+                             'All Cancers',
+                             'all_cancers_by_gender',
+                             '', 
+                             'line', 
+                             'cancer_research_by_gender_query.1',
+                             'All Cancer Sites Combined');
+
+
+das_register_util.register_chart('Cancer Research',
                              'Non-Hodgkin Lymphoma',
                              'non_hodgkin_lymphoma_by_year',
                              '', 
