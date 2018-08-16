@@ -1,25 +1,11 @@
+import ecl.das.chart;
+ 
 _dataset_name := '' :STORED('dataset_name');
 _filter_1 := '':STORED('filter_1');
 _filter_2 := '':STORED('filter_2');
 _register := false:STORED('register');
 
 
-
-columnRec := RECORD
-    STRING50 column_label;
-    Real     value;
-END;
-
-rowRec := RECORD
-    STRING50 series_label;
-    DATASET(columnRec) column_data;
-END;
-
-chartRec := RECORD
-    STRING title;
-    STRING description;    
-    DATASET(rowRec) row_data;
-END;
 
 columnYearAgeRec := RECORD
     STRING6  age;
@@ -55,14 +41,14 @@ description := 'Cancer cases by Age and how they are progressed in a specific ye
 
 byYearAgeColsGroup := GROUP(SORT(ds, age, year), age);
 
-rowRec doAgeRollup(columnYearAgeRec l, DATASET(columnYearAgeRec) allRows) := TRANSFORM
+chart.rowRec doAgeRollup(columnYearAgeRec l, DATASET(columnYearAgeRec) allRows) := TRANSFORM
     SELF.series_label := l.age; 
-    SELF.column_data := PROJECT(allRows(age = l.age), TRANSFORM(columnRec, SELF.column_label := (STRING50) LEFT.year, SELF.value := LEFT.value));
+    SELF.column_data := PROJECT(allRows(age = l.age), TRANSFORM(chart.columnRec, SELF.column_label := (STRING50) LEFT.year, SELF.value := LEFT.value));
 END;
 
 byYearAgeRows := ROLLUP(byYearAgeColsGroup, GROUP, doAgeRollup(LEFT,ROWS(LEFT)));
 
-OUTPUT(DATASET([{title, description, byYearAgeRows}], chartRec),, NAMED('chart_data'));
+OUTPUT(DATASET([{title, description, byYearAgeRows}], chart.rowColumnChartRec),, NAMED('chart_data'));
 
 
 
