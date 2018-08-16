@@ -2,11 +2,11 @@ IMPORT STD;
 
 EXPORT das_register_util := MODULE
 
-    myFileName := '~hpcc_das::config::super::charts.flat';
+    SHARED myFileName := '~hpcc_das::config::super::charts';
 		
-	myArchiveFile := '~hpcc_das::config::archive::charts.flat';
+	SHARED myArchiveFile := '~hpcc_das::config::archive::charts';
 
-    dashChartRec := Record
+    SHARED dashChartRec := Record
         STRING application_id;
         STRING dashboard_id;
         STRING chart_id;
@@ -21,26 +21,30 @@ EXPORT das_register_util := MODULE
         BOOLEAN is_active := true;
     End;
 
-    currentFile := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT,  OPT);
+    SHARED currentFile := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT,  OPT);
 
-    charts := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT ,  OPT);
+    SHARED charts := DATASET(DYNAMIC(myFileName), dashChartRec, FLAT ,  OPT);
 
-    dashChartRec updateCurrentFileData(DATASET(dashChartRec) newFile) := FUNCTION
+    SHARED dashChartRec updateCurrentFileData(DATASET(dashChartRec) newFile) := FUNCTION
 
          return JOIN(currentFile, newFile,
                      Left.application_id = right.application_id And Left.dashboard_id = right.dashboard_id  and Left.chart_id = right.chart_id,
-                     TRANSFORM(dashChartRec, SELF := IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)),
-										 FULL OUTER
-                );
+                     TRANSFORM(dashChartRec, 
+			                   SELF := IF(Left.application_id = RIGHT.application_id And Left.dashboard_id = RIGHT.dashboard_id and Left.chart_id = RIGHT.chart_id, RIGHT,
+					                   IF(Left.application_id = '' And Left.dashboard_id = '' and Left.chart_id = '', RIGHT, LEFT)
+				                            );
+			               ), FULL OUTER
+                     );
     END;
-
-    rewriteMyFile(Dataset(dashChartRec) newData, STRING chart_id) := Function
+    
+ 
+    SHARED rewriteMyFile(Dataset(dashChartRec) newData, STRING chart_id) := Function
 
 	    tempSubkeyPath := myFileName + '_temp';		
 		
 		createSubFile := OUTPUT(newData, , tempSubkeyPath, OVERWRITE);
 
-        subkeyPath := myFileName + '::' + chart_id + '::' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
+        subkeyPath := myFileName + '::' + chart_id + '_' + (STRING)Std.Date.CurrentTimestamp() : INDEPENDENT;
 
         addSuperFile :=  SEQUENTIAL
                (
@@ -59,6 +63,28 @@ EXPORT das_register_util := MODULE
 
     end;
 
+    EXPORT register_chart_multi_rows(Dataset(dashChartRec) newRec) := FUNCTION
+
+        joinedData := updateCurrentFileData(newRec);
+
+        updateMyFile := rewriteMyFile(joinedData, newRec[1].chart_id);
+
+        Return WHEN(updateMyFile, OUTPUT(charts));
+ 
+    END;
+
+    EXPORT register_chart_CSVFile(String fileName) := FUNCTION
+        
+        newRec := DATASET(filename, dashChartRec, thor, OPT);
+
+        joinedData := updateCurrentFileData(newRec);
+
+        updateMyFile := rewriteMyFile(joinedData, newRec[1].chart_id);
+
+        Return WHEN(updateMyFile, OUTPUT(charts));
+ 
+    END;
+
     EXPORT register_chart(STRING app_id,
                         STRING dashboard_id,
                         STRING chart_id,
@@ -75,12 +101,7 @@ EXPORT das_register_util := MODULE
                      query_name, dataset_name, is_drilldown, has_drilldown, 
                      drilldown_app_id, drilldown_dashboard_id}], dashChartRec);
 
-        joinedData := updateCurrentFileData(newRec);
-
-        updateMyFile := rewriteMyFile(joinedData, chart_id);
-
-        Return WHEN(updateMyFile, OUTPUT(charts));
- 
+        RETURN register_chart_multi_rows(newRec);
     END;
 
 END;
