@@ -13,7 +13,7 @@ dashChartRec := Record
     BOOLEAN is_active := true;
 End;
 
-charts_file := '~hpcc_das::config::super::charts.flat' ;
+charts_file := '~hpcc_das::config::super::charts' ;
 
 charts := DATASET(DYNAMIC(charts_file), dashChartRec, FLAT);
 

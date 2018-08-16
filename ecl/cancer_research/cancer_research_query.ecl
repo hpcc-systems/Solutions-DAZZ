@@ -1,72 +1,27 @@
-IMPORT ecl.das.das_register_util;
-
-columnRec := RECORD
-    STRING50 column_label;
-    Real     value;
-END;
-
-rowRec := RECORD
-    STRING50 series_label;
-    DATASET(columnRec) column_data;
-END;
-
-chartRec := RECORD
-    STRING title;
-    STRING description;    
-    DATASET(rowRec) row_data;
-END;
+import ecl.das.chart; 
 
 
 _dataset_name := 'allByYear' :STORED('dataset_name');
 _filter_1 := '':STORED('filter_1');
 _filter_2 := '':STORED('filter_2');
 
-allByYear := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year.flat'), rowRec, THOR);
-allByYearAndSex := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year_sex.flat'), rowRec, THOR);
-allByYearAndAge := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year_age.flat'), rowRec, THOR);
-allBy2014AndAge := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_2014_age.flat'), rowRec, THOR);
+allByYear := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year.flat'), chart.rowRec, THOR);
+allByYearAndSex := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year_sex.flat'), chart.rowRec, THOR);
+allByYearAndAge := DATASET(DYNAMIC('~training-samples::cancer-research::out::all_by_year_age.flat'), chart.rowRec, THOR);
 
 ds := CASE(_dataset_name, 'allByYearAndSex' => allByYearAndSex, 'allByYear' => allByYear, 
-         'allByYearAndAge' => allByYearAndAge, 'allBy2014AndAge' => allBy2014AndAge, allByYear);
+         'allByYearAndAge' => allByYearAndAge, allByYear);
 
 title := CASE
             (
                 _dataset_name, 
                 'allByYearAndSex' => 'All Cancer Cases by Years and Gender', 
                 'allByYear' => 'All Cancer Cases by Years', 
-                'allByYearAndAge' => 'All Cancer Cases by Years and Age', 
-                'allBy2014AndAge' => 'All Cancers for 2014 by Age', 
+                'allByYearAndAge' => 'All Cancer Cases by Years and Age',
                 'All Cancer Cases by Years'
             );
 
 description := '';
 
-OUTPUT(DATASET([{title, description,ds}], chartRec), , NAMED('chart_data'));
+OUTPUT(DATASET([{title, description,ds}], chart.rowColumnChartRec), , NAMED('chart_data'));
 
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year',
-                             '', 
-                             'bar', 
-                             'cancer_research_query.1',
-                             'allByYear',
-                             false,
-                             true,
-                             'cancer_research',
-                             'drilldown_all_cancers_for_age');
-
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year_sex',
-                             '', 
-                             'line', 
-                             'cancer_research_query.1',
-                             'allByYearAndSex');
-
-das_register_util.register_chart('cancer_research',
-                             'all_cancers',
-                             'all_cancers_by_year_age',
-                             '', 
-                             'line', 
-                             'cancer_research_query.1',
-                             'allByYearAndAge');

@@ -146,12 +146,16 @@ class HPCCChart extends LitElement {
   }
 
   receiveData(respType, resp) {
-    
+    console.log('[hpcc-chart]'+ ' Receivied Data ');
+
     let chartResult = jsonPath(resp, '$..chart_data');
     
     if (!chartResult) return;//No data is returned. Need to log this as this should never happen
 
     let chartMeta = chartResult[0].Row[0];
+    
+    console.log('[hpcc-chart]'+ ' chart meta title: ' + chartMeta.title);
+    
     if (chartMeta.title) this.chart_title = chartMeta.title;
     let chartData = chartMeta.row_data.Row;
 

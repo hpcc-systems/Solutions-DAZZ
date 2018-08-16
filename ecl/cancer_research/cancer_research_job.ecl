@@ -1,3 +1,5 @@
+_site := 'All Cancer Sites Combined';
+
 byAgeRec := RECORD
     STRING age;
     STRING ci_lower;
@@ -18,7 +20,7 @@ rawDS := DATASET('~training-samples::cancer-research::in::byage.txt',
 OUTPUT(rawDS, NAMED('raw'));
 
 
-allCancers := rawDS(site='All Cancer Sites Combined' 
+allCancers := rawDS(site=_site
                 and year != '2010-2014' 
                 and (sex='Male' or sex='Female') 
                 and (race='All Races')
@@ -35,6 +37,7 @@ allCancersByYearAge := TABLE(allCancers, {age,year, UNSIGNED4 total:=SUM(GROUP, 
 
 OUTPUT(allCancersByYear,,'~training-samples::cancer-research::out::aggregate_all_cancers_by_year.flat',NAMED('aggregate_all_cancers_by_year'), OVERWRITE);
 OUTPUT(allCancersByYearSex,,'~training-samples::cancer-research::out::aggregate_all_cancers_by_year_sex.flat', NAMED('aggregate_all_cancers_by_year_sex'), OVERWRITE);
+OUTPUT(allCancersByYearAge,,'~training-samples::cancer-research::out::aggregate_all_cancers_by_year_age.flat',NAMED('aggregate_all_cancers_by_year_age'), OVERWRITE);
 
 //Record structures for shaping data for the charts
 columnRec := RECORD
@@ -84,7 +87,8 @@ byYearSexColsGroup := GROUP(byYearSexCols, sex);
 
 rowRec doSexRollup(columnYearSexRec l, DATASET(columnYearSexRec) allRows) := TRANSFORM
     SELF.series_label := l.sex; 
-    SELF.column_data := PROJECT(allRows(sex = l.sex), TRANSFORM(columnRec, SELF.column_label := (STRING50) LEFT.year, SELF.value := LEFT.value));
+    SELF.column_data := PROJECT(allRows(sex = l.sex), 
+                TRANSFORM(columnRec, SELF.column_label := (STRING50) LEFT.year, SELF.value := LEFT.value));
 END;
 
 byYearSexRows := ROLLUP(byYearSexColsGroup, GROUP, doSexRollup(LEFT,ROWS(LEFT)));
@@ -106,7 +110,9 @@ END;
 
 byYearAgeCols := PROJECT(allCancersByYearAge, transYearAgeCols(LEFT));
 
-OUTPUT(byYearAgeCols,, '~training-samples::cancer-research::out::aggregate_all_cancers_by_year_age.flat', NAMED('aggregate_all_cancers_by_year_age'), OVERWRITE);
+OUTPUT(byYearAgeCols,, 
+    '~training-samples::cancer-research::out::aggregate_all_cancers_by_year_age.flat', 
+    NAMED('aggregate_all_cancers_by_year_age'), OVERWRITE);
 
 
 

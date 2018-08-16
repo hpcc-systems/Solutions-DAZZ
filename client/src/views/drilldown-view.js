@@ -18,10 +18,10 @@ class DrilldownView extends LitElement {
           
     <div style="background-color:gray;width:100%">
       <vaadin-vertical-layout>
-      <vaadin-horizonal-layout>
-      <span style="background-color:gray; padding: 5px;text-align:center">Drilldown View</span>
-      <paper-button style="text-align:center;color:blue" on-click="${() => this.close()}">Close</paper-button> 
-      </vaadin-horizonal-layout>
+          <vaadin-horizonal-layout>
+              <span style="background-color:gray; padding: 5px;text-align:center">Drilldown View</span>
+              <paper-button style="text-align:center;color:blue" on-click="${() => this.close()}">Close</paper-button> 
+          </vaadin-horizonal-layout>
 
             ${repeat(_charts_data, (item) => html`
                 <hpcc-chart  chart_type="${item.chart_type}" 
@@ -32,8 +32,15 @@ class DrilldownView extends LitElement {
                     drilldown_dashboard_id="${item.drilldown_dashboard_id}"
                     drilldown_application_id="${item.drilldown_application_id}"></hpcc-chart>
             `)}
+             
+            <vaadin-horizonal-layout>
+                <span style="background-color:gray; padding: 5px;text-align:center">Drilldown View</span>
+                <paper-button style="text-align:center;color:blue" on-click="${() => this.close()}">Close</paper-button> 
+            </vaadin-horizonal-layout>
+            
+        </vaadin-vertical-layout>
 
-      </vaadin-vertical-layout>
+
       </div>
     
     `;
