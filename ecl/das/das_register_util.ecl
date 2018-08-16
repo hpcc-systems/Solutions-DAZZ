@@ -6,7 +6,7 @@ EXPORT das_register_util := MODULE
 		
 	SHARED myArchiveFile := '~hpcc_das::config::archive::charts';
 
-    SHARED dashChartRec := Record
+    EXPORT dashChartRec := Record
         STRING application_id;
         STRING dashboard_id;
         STRING chart_id;
