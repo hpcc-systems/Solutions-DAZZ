@@ -67,7 +67,6 @@ das_register_util.register_chart_multi_rows
                     'cancer_research_by_all_query.1',
                     'Prostate'
             },        
-
             {           
                     'Cancer Research',
                     'Stomach',
@@ -77,7 +76,6 @@ das_register_util.register_chart_multi_rows
                     'cancer_research_by_all_query.1',
                     'Stomach'
             },         
-
             {
                     'Cancer Research',
                     'Thyroid',
@@ -87,7 +85,6 @@ das_register_util.register_chart_multi_rows
                     'cancer_research_by_all_query.1',
                     'Thyroid'
             },  
-
             {
                     'Cancer Research',
                     'Urinary Bladder',
@@ -116,7 +113,6 @@ das_register_util.register_chart_multi_rows
                     'cancer_research_by_all_query.1',
                     'Colon and Rectum'
             },      
-
             {
                     'Cancer Research',
                     'Cervix',
@@ -207,7 +203,6 @@ das_register_util.register_chart_multi_rows
                     'cancer_research_by_all_query.1',
                     'Lung and Bronchus'
             }
-
         
         ], das_register_util.dashChartRec)
     );  
