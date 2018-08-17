@@ -73,17 +73,17 @@ class MyApp extends PolymerElement {
           display: block;
           padding: 0 16px;
           text-decoration: none;
-          color: #fff;
+          color: #bfbf92;
           font-weight:500;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 40px;
           
         }
 
         .drawer-list a.iron-selected {
-          color: #fff;
+          color: #bfbf92;
           font-weight:500;
-          font-size: 16px;
+          font-size: 14px;
           background-color: gray;
         }
       </style>
