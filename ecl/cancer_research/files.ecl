@@ -20,7 +20,8 @@ EXPORT files := MODULE
     EXPORT allIncidents := rawDS(year != '2010-2014' 
                 and (sex='Male' or sex='Female') 
                 and (race='All Races')
-                and (event_type='Incidence'));                        
+                and (event_type='Incidence')
+                and (site != 'Female Breast, <i>in situ</i>'));                        
 
     EXPORT byAllRec := RECORD
         STRING year;

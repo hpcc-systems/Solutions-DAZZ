@@ -3,6 +3,9 @@ IMPORT ecl.das.chart;
 
 #WORKUNIT('name', 'cancer_research_by_gender_query');
 
+
+_filter_1 := '':STORED('filter_1');
+_filter_2 := '':STORED('filter_2');
 _dataset_name := 'All Cancer Sites Combined' :STORED('dataset_name');
 
 allCancers := TABLE(files.allIncidents (site=_dataset_name), {sex, year, UNSIGNED4 total:=SUM(GROUP, (INTEGER)total)}, sex, year);
