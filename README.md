@@ -1,4 +1,4 @@
-# HPCC Systems DAZZ (As in Dazzle)
+# HPCC Systems Dazz (As in Dazzle)
 
 A simple Polymer 3 (mostly lit-html and lit-element) based framework for creating ROXIE driven dashboards
 
