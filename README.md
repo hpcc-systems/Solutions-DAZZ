@@ -1,6 +1,6 @@
-# HPCC Systems DAS (Dashboard as Services or Services as Dashboard)
+# HPCC Systems DAZZ (As in Dazzle)
 
-A simple Polymer 3 (mostly lit-html and lit-element) based framework for creating services driven dashboards
+A simple Polymer 3 (mostly lit-html and lit-element) based framework for creating ROXIE driven dashboards
 
 The examples in this project use http://play.hpccsystems.com:8010
 
@@ -12,11 +12,11 @@ Prerequisites:
 - Latest Polymer CLI
 
 ```
-git clone https://github.com/hpcc-systems/Solutions-DAS.git
+git clone https://github.com/hpcc-systems/Solutions-Dazz.git
 ```
 
 ```
-cd Solutions-DAS
+cd Solutions-Dazz
 cd client
 npm update
 cd ../server
