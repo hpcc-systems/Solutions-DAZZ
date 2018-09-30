@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "ecl"
+		},
+		{
+			"path": "client"
+		},
+		{
+			"path": "server"
 		}
 	],
 	"settings": {}

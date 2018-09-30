@@ -3,7 +3,6 @@ const app = express();
 app.use(express.json());
 
 var request = require('request');
-//var jp = require('jsonpath');
 
 
 app.post('/api/*', (req, res) => { 

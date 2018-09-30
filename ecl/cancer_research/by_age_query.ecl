@@ -35,7 +35,8 @@ chart.RowRec doAgeRollup(columnYearAgeRec l, DATASET(columnYearAgeRec) allRows) 
                 TRANSFORM(chart.columnRec, SELF.column_label := (STRING50) LEFT.year, SELF.value := LEFT.value));
 END;
 
-chartRows := ROLLUP(byYearAgeColsGroup, GROUP, doAgeRollup(LEFT,ROWS(LEFT)));
+chartRows := ROLLUP(byYearAgeColsGroup, 
+      GROUP, doAgeRollup(LEFT,ROWS(LEFT)));
 
 title := _dataset_name + ', by Age for ' + If(_filter_1!='',_filter_1,'years');
 
