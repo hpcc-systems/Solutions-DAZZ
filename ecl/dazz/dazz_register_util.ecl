@@ -1,6 +1,6 @@
 IMPORT STD;
 
-EXPORT das_register_util := MODULE
+EXPORT dazz_register_util := MODULE
 
     SHARED myFileName := '~hpcc_das::config::super::charts';
 		

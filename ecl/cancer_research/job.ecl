@@ -1,4 +1,4 @@
-import ecl.cancer_research.files;
+import cancer_research.files;
 
 #WORKUNIT('name', 'Cancer_Research_Job');
 

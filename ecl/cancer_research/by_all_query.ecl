@@ -1,5 +1,5 @@
-IMPORT ecl.cancer_research.files;
-IMPORT ecl.das.chart;
+IMPORT cancer_research.files;
+IMPORT dazz.chart;
 
 #WORKUNIT('name', 'cancer_research_by_all_query');
 

@@ -2,63 +2,72 @@ import { html, LitElement } from '@polymer/lit-element';
 import '../components/hpcc-chart.js';
 import { sharedStyles } from '../styles/shared-styles.js';
 import {Comm} from '../js/Comm.js';
-import { repeat } from 'lit-html/lib/repeat';
+// import { repeat } from 'lit-html';
 import {Properties} from '../js/Properties.js';
 
 class DashboardView extends LitElement {
    
 
-  _render({_charts_data, _dashboard_view}) {
+  render() {
     return html`
              ${sharedStyles} 
       
-             ${repeat(_charts_data, (item) => html`
-                 
-                <hpcc-chart style="width:98%" chart_type="${item.chart_type}" 
-                  dataset_name="${item.dataset_name}" query_name="${item.query_name}" 
-                  chart_title="${item.title}"
-                  has_drilldown="${item.has_drilldown}"
-                  drilldown_dashboard_id="${item.drilldown_dashboard_id}"
-                  drilldown_application_id="${item.drilldown_application_id}"></hpcc-chart>
+             
+             ${this._charts_data.map((item) => html`
+
+                  <hpcc-chart 
+                    style="width:98%" 
+                    chart_type="${item.chart_type}" 
+                    dataset_name="${item.dataset_name}" query_name="${item.query_name}" 
+                    chart_title="${item.title}"
+                    has_drilldown="${item.has_drilldown}"
+                    drilldown_dashboard_id="${item.drilldown_dashboard_id}"
+                    drilldown_application_id="${item.drilldown_application_id}">
+                  </hpcc-chart>
 
              `)}
     `;
   }
+  //${repeat(_charts_data, (item) => html` 
+
 
 
   constructor () {
     super();
     this._can_render = false;
+    this.active = false;
     this._charts_data = [];
   }
 
   static get properties() {
     return {
-      dashboard_id: String,
-      application_id: String,
-      active: Boolean,
-      _charts_data: Object,
-      _dashboard_view: Object
+      dashboard_id: {type: String},
+      application_id: {type: String},
+      active: {type: Boolean},
+      _charts_data: {type: Object},
+      _dashboard_view: {type: Object}
     }
   }
 
-  _shouldRender(props, changedProps, old) {
-    console.log('_shouldRender called, props active: ' + props.active + ' can render: ' + this._can_render);
- 
-    if (props.active && !this._can_render) {
-      this._init();//Call promise to fetch data
-    } 
+  // shouldUpdate(changedProps) {
+  //   console.log('should update called, props active: ' + this.active ); 
 
-    return this._can_render;
+
+  // }
+
+  get active() {
+    return this.getAttribute('active');
   }
 
-  _didRender(props, changedProps, prevProps)  {
-    this._can_render = false;
-    
-    console.log('[dashboard-view] Render complete');
+  set active(value) {
+    this.setAttribute('active', value);
+    console.log('set active: ' + value ); 
+    if (value == true) {
+      this.initData();//Call promise to fetch data
+    }
   }
 
-  _init() {
+  initData() {
     let serviceURL = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
     let serviceContent = {
       "das_dashboard_charts_query.1": {
@@ -82,8 +91,7 @@ class DashboardView extends LitElement {
     console.log('[dashboard-view] charts data:');
     console.log(JSON.stringify(this._charts_data));
 
-    this._can_render = true;
-    this.requestRender();
+    this._invalidate();
   }
 }
 

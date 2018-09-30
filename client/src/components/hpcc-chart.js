@@ -3,7 +3,6 @@ import {render} from 'lit-html'
 import {sharedStyles} from '../styles/shared-styles.js';
 import {Comm} from '../js/Comm.js';
 import '../views/drilldown-view.js';
-import { repeat } from 'lit-html/lib/repeat';
 import {Properties} from '../js/Properties.js';
 
 
@@ -16,7 +15,7 @@ class HPCCChart extends LitElement {
     console.log('[hpcc-chart] Constructor');
   }
 
-  _render({ chart_title, has_drilldown }) {
+  render() {
     console.log('[hpcc-chart] Render');
 
     return html`
@@ -40,9 +39,9 @@ class HPCCChart extends LitElement {
       <drilldown-view hidden='true' id="drilldown"></drilldown-view> 
        
       <div class="card">
-        <h1>${chart_title}</h1>
+        <h1>${this.chart_title}</h1>
         <div id="main" style="min-height:500px;" ></div>
-        <div hidden="${!has_drilldown}" style="color: gray"><h2>You can drilldown on this chart by selecting a slice/bar</h2></div>
+        <div hidden="${!this.has_drilldown}" style="color: gray"><h2>You can drilldown on this chart by selecting a slice/bar</h2></div>
       </div>
 
       
@@ -52,21 +51,23 @@ class HPCCChart extends LitElement {
 
   static get properties() {
     return {
-      chart_title: String,
-      chart_type: String,
-      dataset_name: String,
-      query_name: String,
-      filter_1: String,
-      filter_2: String,
-      has_drilldown: Boolean,
-      drilldown_application_id: String,
-      drilldown_dashboard_id: String,
+      chart_title: {type: String},
+      chart_type: {type: String},
+      dataset_name: {type: String},
+      query_name: {type: String},
+      filter_1: {type: String},
+      filter_2: {type: String},
+      has_drilldown: {type: Boolean},
+      drilldown_application_id: {type: String},
+      drilldown_dashboard_id: {type: String},
     }
   }
 
   
 
-  _didRender(props, changedProps, prevProps) {
+  firstUpdated(changedProperties){
+    super.firstUpdated();
+
     console.log('[hpcc-chart]' + ' Render complete');
     console.log('[hpcc-chart]' + ' query name: ' + this.query_name);
     console.log('[hpcc-chart]'+ ' chart title: ' + this.chart_title);

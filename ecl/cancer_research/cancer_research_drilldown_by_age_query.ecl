@@ -1,4 +1,4 @@
-import ecl.das.chart;
+import dazz.chart;
  
 _dataset_name := '' :STORED('dataset_name');
 _filter_1 := '':STORED('filter_1');

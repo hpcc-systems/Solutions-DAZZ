@@ -130,7 +130,7 @@ class MyApp extends PolymerElement {
         <app-header-layout has-scrolling-region="">
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>HPCC DAS
+            <app-toolbar>DAZZ
             </app-toolbar>
           </app-header>
 

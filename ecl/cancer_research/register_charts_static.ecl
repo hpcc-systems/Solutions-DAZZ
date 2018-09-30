@@ -1,7 +1,7 @@
-IMPORT ecl.das.das_register_util;   
-IMPORT ecl.cancer_research.files;  
+IMPORT dazz.dazz_register_util;   
+IMPORT cancer_research.files;  
 
-das_register_util.register_chart_multi_rows
+dazz_register_util.register_chart_multi_rows
     (  DATASET(
     
         [   
@@ -220,5 +220,5 @@ das_register_util.register_chart_multi_rows
                     'Lung and Bronchus'
             }
         
-        ], das_register_util.dashChartRec)
+        ], dazz_register_util.dashChartRec)
     );  

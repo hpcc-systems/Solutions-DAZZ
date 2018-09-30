@@ -5,13 +5,12 @@ import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout';
 import '@polymer/paper-dialog';
 import '@polymer/paper-button';
 import {Comm} from '../js/Comm.js';
-import { repeat } from 'lit-html/lib/repeat';
 import {Properties} from '../js/Properties.js';
 
 class DrilldownView extends LitElement {
    
 
-  _render({_charts_data, filter_1, filter_2}) {
+  render() {
     return html`
     ${sharedStyles}          
           
@@ -20,14 +19,15 @@ class DrilldownView extends LitElement {
       <vaadin-vertical-layout>
           <vaadin-horizonal-layout>
               <span style="background-color:gray; padding: 5px;text-align:center">Drilldown View</span>
-              <paper-button style="text-align:center;color:blue" on-click="${() => this.close()}">Close</paper-button> 
+              <paper-button style="text-align:center;color:blue" @click="${() => this.close()}">Close</paper-button> 
           </vaadin-horizonal-layout>
 
-            ${repeat(_charts_data, (item) => html`
+            
+            ${this._charts_data.map((item) => html`
                 <hpcc-chart  chart_type="${item.chart_type}" 
                     dataset_name="${item.dataset_name}" query_name="${item.query_name}" 
-                    chart_title="${item.title} by ${filter_1}"
-                    filter_1="${filter_1}"
+                    chart_title="${item.title} by ${this.filter_1}"
+                    filter_1="${this.filter_1}"
                     has_drilldown="${item.has_drilldown}"
                     drilldown_dashboard_id="${item.drilldown_dashboard_id}"
                     drilldown_application_id="${item.drilldown_application_id}"></hpcc-chart>
@@ -35,7 +35,7 @@ class DrilldownView extends LitElement {
              
             <vaadin-horizonal-layout>
                 <span style="background-color:gray; padding: 5px;text-align:center">Drilldown View</span>
-                <paper-button style="text-align:center;color:blue" on-click="${() => this.close()}">Close</paper-button> 
+                <paper-button style="text-align:center;color:blue" @click="${() => this.close()}">Close</paper-button> 
             </vaadin-horizonal-layout>
             
         </vaadin-vertical-layout>
@@ -46,6 +46,7 @@ class DrilldownView extends LitElement {
     `;
   }
   
+  //${repeat(_charts_data, (item) => html` 
 
   constructor () {
     super();
@@ -54,20 +55,20 @@ class DrilldownView extends LitElement {
 
   static get properties() {
     return {
-      dashboard_id: String,
-      application_id: String,
-      filter_1: String,
-      filter_2: String,
-      _charts_data: Object
+      dashboard_id: {type: String},
+      application_id: {type: String},
+      filter_1: {type: String},
+      filter_2: {type: String},
+      _charts_data: {type: Object}
     }
   }
 
   open() {
     this.hidden = false;
-    this._init();
+    this.initData();
   }
 
-  _init() {
+  initData() {
     let serviceURL = Properties.get_das_server_url()+ "/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
     let serviceContent = {
       "das_dashboard_charts_query.1": {

@@ -1,5 +1,5 @@
-IMPORT ecl.das.das_register_util;   
-IMPORT ecl.cancer_research.files;  
+IMPORT dazz.dazz_register_util;   
+IMPORT cancer_research.files;  
 
 #WORKUNIT('name', 'cancer_research_register_charts');
 
@@ -7,7 +7,7 @@ sites := DEDUP(SORT(files.allIncidents,site), site);
 
 summary := NORMALIZE(sites, 2,
       TRANSFORM(
-           das_register_util.dashChartRec,
+           dazz_register_util.dashChartRec,
                 SELF.application_id := 'Cancer Research';
                 SELF.dashboard_id := LEFT.site;
                 SELF.chart_id := COUNTER + LEFT.site;
@@ -25,7 +25,7 @@ summary := NORMALIZE(sites, 2,
 
 drilldown := NORMALIZE(sites, 1,
       TRANSFORM(
-           das_register_util.dashChartRec,
+           dazz_register_util.dashChartRec,
                 SELF.application_id := 'Cancer Research';
                 SELF.dashboard_id := 'Drilldown ' + LEFT.site;
                 SELF.chart_id := COUNTER + ' Drilldown ' +  LEFT.site;
@@ -38,7 +38,7 @@ drilldown := NORMALIZE(sites, 1,
 );
 
                                                                                                      
-das_register_util.register_chart_multi_rows(summary + drilldown);
+dazz_register_util.register_chart_multi_rows(summary + drilldown);
 
 
 
