@@ -15,6 +15,7 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@vaadin/vaadin-dropdown-menu';
 import {Comm} from  '../js/Comm.js';
 import {Properties} from '../js/Properties.js';
+import '../views/dashboard-view.js';
 
 
 
@@ -247,7 +248,7 @@ class MyApp extends PolymerElement {
 
     if (page) {
 
-      import('../views/dashboard-view.js');
+      
 
     }
   }

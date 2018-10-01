@@ -2,7 +2,6 @@ import { html, LitElement } from '@polymer/lit-element';
 import '../components/hpcc-chart.js';
 import { sharedStyles } from '../styles/shared-styles.js';
 import {Comm} from '../js/Comm.js';
-// import { repeat } from 'lit-html';
 import {Properties} from '../js/Properties.js';
 
 class DashboardView extends LitElement {
@@ -28,7 +27,6 @@ class DashboardView extends LitElement {
              `)}
     `;
   }
-  //${repeat(_charts_data, (item) => html` 
 
 
 
@@ -37,6 +35,7 @@ class DashboardView extends LitElement {
     this._can_render = false;
     this.active = false;
     this._charts_data = [];
+    this.isInitData = false;
   }
 
   static get properties() {
@@ -49,19 +48,15 @@ class DashboardView extends LitElement {
     }
   }
 
-  // shouldUpdate(changedProps) {
-  //   console.log('should update called, props active: ' + this.active ); 
-
-
-  // }
 
   get active() {
     return this.getAttribute('active');
   }
 
+
   set active(value) {
     this.setAttribute('active', value);
-    console.log('set active: ' + value ); 
+    console.log('set active: ' + value  + '  - dashboard id - ' + this.dashboard_id); 
     if (value == true) {
       this.initData();//Call promise to fetch data
     }
@@ -85,6 +80,7 @@ class DashboardView extends LitElement {
 
 
   receiveData(respType, resp) {
+    this.isInitData = true;
     let dashResult = jsonPath(resp, '$..dashboard_charts_data');
     this._charts_data = dashResult[0].Row;
 
