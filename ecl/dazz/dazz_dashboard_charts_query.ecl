@@ -1,4 +1,4 @@
-IMPORT ecl.dazz.dazz_register_util;
+IMPORT dazz.dazz_register_util;
 
 STRING _application_id := '': STORED('application_id'); 
 STRING _dashboard_id := '': STORED('dashboard_id');

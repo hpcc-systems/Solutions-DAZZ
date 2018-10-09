@@ -17,7 +17,7 @@ EXPORT files := MODULE
     EXPORT rawDS := DATASET('~training-samples::cancer-research::in::byage.txt', 
                         rawRec, CSV(HEADING(1), SEPARATOR('|')));
 
-    EXPORT allIncidents := rawDS(year != '2010-2014' 
+    EXPORT allIncidents := rawDS(year != '2011-2015' 
                 and (sex='Male' or sex='Female') 
                 and (race='All Races')
                 and (event_type='Incidence')

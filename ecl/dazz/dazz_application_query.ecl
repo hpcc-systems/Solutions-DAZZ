@@ -11,7 +11,7 @@ dashChartRec := Record
     STRING drilldown_application_id := '';
     STRING drilldown_dashboard_id := '';
     BOOLEAN is_active := true;
-End;
+END;
 
 charts_file := '~hpcc_das::config::super::charts' ;
 

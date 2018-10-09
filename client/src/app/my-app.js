@@ -174,16 +174,16 @@ class MyApp extends PolymerElement {
   constructor() {
     super();
 
-    this.dashService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_dashboard_query.1";
+    this.dashService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/dazz_dashboard_query.1";
     this.dashServiceContent = {
-      "das_dashboard_query.1": {
+      "dazz_dashboard_query.1": {
 
       }
     };
 
-    this.appService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/das_application_query.1";
+    this.appService = Properties.get_das_server_url() + "/WsEcl/soap/query/roxie/dazz_application_query.1";
     this.appServiceContent = {
-      "das_application_query.1": {
+      "dazz_application_query.1": {
 
       }
     };
@@ -198,7 +198,7 @@ class MyApp extends PolymerElement {
   _selectedMenu(e) {
 
     this.dashServiceContent = {
-      "das_dashboard_query.1": {
+      "dazz_dashboard_query.1": {
          "application_id": e.target.id
       }
     };

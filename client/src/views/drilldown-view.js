@@ -69,9 +69,9 @@ class DrilldownView extends LitElement {
   }
 
   initData() {
-    let serviceURL = Properties.get_das_server_url()+ "/WsEcl/soap/query/roxie/das_dashboard_charts_query.1";
+    let serviceURL = Properties.get_das_server_url()+ "/WsEcl/soap/query/roxie/dazz_dashboard_charts_query.1";
     let serviceContent = {
-      "das_dashboard_charts_query.1": {
+      "dazz_dashboard_charts_query.1": {
         "dashboard_id": this.dashboard_id,
         "application_id": this.application_id,
         "filter_1": this.filter_1

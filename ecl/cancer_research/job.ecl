@@ -6,10 +6,12 @@ _site := 'All Cancer Sites Combined';
 
 OUTPUT(files.rawDS, NAMED('raw')); 
 
-allIncidents := files.rawDS(year != '2010-2014' 
+allIncidents := files.rawDS(year != '2011-2015' 
                 and (sex='Male' or sex='Female') 
                 and (race='All Races')
                 and (event_type='Incidence'));
 
-filered := allIncidents(site=_site);
+filtered := allIncidents(site=_site);
+
+OUTPUT(filtered, NAMED('filtered'));
                            
